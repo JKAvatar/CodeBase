@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>测试</title>
+    <meta name="description" content="测试"/>
+    <meta name="keywords" content="测试"/>
+    <link rel="stylesheet" type="text/css" href="http://pic.7881.com/7881/common/common.css" />
+    <style>#main td{width:10px;height:10px;}</style>
+    <script>
+        function Snake(){
+            this.inits.apply(this,arguments);
+        }
+        Snake.prototype = {
+            inits:function(){
+                this.def = {
+                    body:[],//蛇身体
+                    direction:null,//方向
+                    timer:null,//时钟
+                    speed:150,//速度
+                    paused:false,
+                    rowCount: 30,//游戏区域表格行
+                    colCount: 30//游戏区域表格列
+                }
+                var _this = this;
+                var x = 0;
+                var y = 0;
+                this.body = this.def.body;
+                this.direction = this.def.direction;
+                this.timer = this.def.timer;
+                this.speed = this.def.speed;
+                this.rowCount = this.def.rowCount;
+                this.colCount = this.def.colCount;
+                this.paused = this.def.paused;
+                this.main = document.getElementById("main");
+                for(var row=0;row<this.rowCount;row++){//创建游戏区域，就是把表格画出来
+                    var tr=this.main.insertRow(-1);
+                    for(var col=0;col<this.colCount;col++) {
+                        var td=tr.insertCell(-1);
+                    }
+                }
+                this.generateDood();//创建第一个食物
+                while(true){//创建蛇头
+                    x = Math.floor(Math.random()*this.colCount);
+                    y = Math.floor(Math.random()*this.rowCount);
+                    if(!this.isCellFilled(x,y)){
+                        this.main.rows[y].cells[x].style.backgroundColor = "black";
+                        this.body.push({x:x,y:y});
+                        break;
+                    }
+                }
+                document.onkeydown = function(e){
+                    if (!e)e=window.event;
+                    switch(e.keyCode | e.which | e.charCode){
+                        case 13: {//enter键暂停
+                            if(_this.timer){
+                                if(_this.paused){
+                                    _this.move();
+                                    _this.paused = false;
+                                }
+                                else{
+                                    _this.pause();
+                                    _this.paused = true;
+                                }
+                            }else{
+                                break;
+                            }
+                            break;
+                        }
+                        case 37:{//像左
+                            if(_this.direction==1||_this.direction == 3||_this.paused == true){
+                                break;
+                            }
+                            _this.direction = 3;
+                            _this.move();
+                            break;
+                        }
+                        case 38:{//向上
+                            if(_this.direction==2||_this.direction == 0||_this.paused == true){
+                                break;
+                            }
+                            _this.direction = 0;
+                            _this.move();
+                            break;
+                        }
+                        case 39:{//向右
+                            if(_this.direction==3||_this.direction == 1||_this.paused == true){
+                                break;
+                            }
+                            _this.direction = 1;
+                            _this.move();
+                            break;
+                        }
+                        case 40:{//向下
+                            if(_this.direction==0||_this.direction == 2||_this.paused == true){
+                                break;
+                            }
+                            _this.direction = 2;
+                            _this.move();
+                            break;
+                        }
+                    }
+                }
+            },
+            isCellFilled:function(x,y){//检查格子有没有被占用
+                if(this.main.rows[y].cells[x].style.backgroundColor == ""){
+                    return false;
+                }
+                return true;
+            },
+            generateDood:function(){//创建食物方法
+                while(true){
+                    var flag = true;
+                    var x = Math.floor(Math.random()*this.colCount);
+                    var y = Math.floor(Math.random()*this.rowCount);
+                    for(var j = 0;j<this.body.length;j++){
+                        if(this.body[j].x==y&&this.body[j].y==x){
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(flag){
+                        this.main.rows[x].cells[y].style.backgroundColor = "red";
+                        break;
+                    }
+                }
+            },
+            move:function(){//循环移动
+                clearInterval(this.timer);
+                var _this = this;
+                this.timer = setInterval(function(){
+                    _this.erase();
+                    _this.moveOneStep();
+                    _this.paint();
+                }, this.speed);
+            },
+            moveOneStep:function(){//移动一格
+                if(this.checkNextStep()==-1){//-1代表游戏结束
+                    clearInterval(this.timer);
+                    if(confirm("你挂了，是否重新开始！")){
+                        this.restart();
+                        return;
+                    }else{
+                        return;
+                    }
+                }
+                if(this.checkNextStep()==1){//1代表碰到食物
+                    var _point = this.getNextPos();
+                    var _x = _point.x;
+                    var _y = _point.y;
+                    this.body.unshift({x:_x,y:_y});
+                    this.generateDood();//因为吃了一个食物，所以再产生一个食物
+                    return;
+                }
+                var point = this.getNextPos();
+                this.body.pop();//从body数组中删除一个
+                this.body.unshift({x:point.x,y:point.y});//把最新的一个坐标放入
+            },
+            erase: function(){//去掉后面一格的颜色
+                for(var i=0; i<this.body.length; i++){
+                    this.main.rows[this.body[i].y].cells[this.body[i].x].style.backgroundColor = "";
+                }
+            },
+            paint: function(){//给前面一格填充颜色，以让用户感觉蛇在移动
+                for(var i=0; i<this.body.length; i++){
+                    this.main.rows[this.body[i].y].cells[this.body[i].x].style.backgroundColor = "black";
+                }
+            },
+            pause:function(){//暂停
+                clearInterval(this.timer);
+                this.paint();
+            },
+            restart: function(){//重新开始
+                if(this.timer){
+                    clearInterval(this.timer);
+                }
+                for(var i=0; i<this.rowCount;i++){
+                    this.main.deleteRow(0);
+                }
+                this.body = [];
+                this.inits();
+            },
+            getNextPos:function(){//获取下一格坐标
+                var x = this.body[0].x;
+                var y = this.body[0].y;
+                if(this.direction==0){
+                    y--;
+                }
+                else if(this.direction==1){
+                    x++;
+                }
+                else if(this.direction==2){
+                    y++;
+                }
+                else{
+                    x--;
+                }
+                return {x:x,y:y};
+            },
+            checkNextStep:function(){//检测即将前进的一格是什么
+                var point = this.getNextPos();
+                var x = point.x;
+                var y = point.y;
+                if(x<0||x>=this.colCount||y<0||y>=this.rowCount){//如果是边界，游戏结束
+                    return -1;
+                }
+                for(var i=0; i<this.body.length; i++){
+                    if(this.body[i].x==x&&this.body[i].y==y){//如果是自己的身体,游戏结束
+                        return -1;
+                    }
+                }
+                if(this.isCellFilled(x,y)){//如果有食物
+                    return 1;
+                }
+                return 0;//是空地
+            }
+        }
+        window.onload = function(){
+            new Snake();
+        }
+    </script></head>
+<body>
+    <table id="main" border="1" cellspacing="0" cellpadding="0"></table>
+</body>
+</html>

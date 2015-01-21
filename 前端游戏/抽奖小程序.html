@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>抽奖</title>
+        <style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            ul {
+                width: 630px;
+                list-style: none;
+                margin: 10px auto;
+            }
+            li {
+                text-align: center;
+                width: 200px;
+                height: 200px;
+                line-height: 200px;
+                margin: 0 10px 10px 0;
+                border: 1px solid red;
+                float: left;
+            }
+            li.active {
+                font-size: 50px;
+                color: #FFFF00;
+                background: red;
+                opacity: 0.5;
+            }
+            #div1 {
+                width: 100px;
+                height: 30px;
+                position: fixed;
+                right: 0;
+                top: 50%;
+            }
+            #btn1 {
+                font-size: 20px;
+                padding: 0 20px;
+                height: 40px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <ul>
+            <li class="jiang">一等奖</li>
+            <li>无</li>
+            <li class="jiang">二等奖</li>
+            <li>无</li>
+            <li class="jiang">三等奖</li>
+            <li>无</li>
+            <li class="jiang">四等奖</li>
+            <li>无</li>
+            <li class="jiang">五等奖</li>
+        </ul>
+        <div id="div1">
+            <input type="button" id="btn1" value="抽奖" />
+        </div>
+        <script src="./jquery-1.9.1.min.js"></script>
+        <script type="text/javascript">
+             //定时器
+            var timer = null;
+                    
+            $('#btn1').click(function() {
+                //按顺序为每一个li追加active样式
+                //速度由快到慢，最终确定是否中奖，如果$('.active')元素有jiang样式，则说明中奖，否则没中奖
+                //获得某个整数范围内随机选择一个值。值=Math.floor(Math.random()*可能值的个数+第一个可能的值)
+                //num指终止li索引
+                //circle指转的圈数1-3圈
+
+                var $li = $('li'),
+                    l = $li.length,
+                    i = $('.active').length==0?0:$('.active').index(),
+                    spaceTime = 50,
+                    circle = Math.floor(Math.random() * 3 + 1),
+                    num = Math.floor(Math.random() * l + 0);
+
+                if (timer) {
+                    clearTimeout(timer);
+                }
+
+                timer = setTimeout(addCls, spaceTime);
+
+                function addCls() {
+                    var end = circle * l + num,
+                        speed = Math.ceil((end - i) / 5);
+
+                    if (i == end) {
+                        clearTimeout(timer);
+                        
+                        if($('.active').hasClass('jiang')){
+                                alert('恭喜你获得'+$('.active').text());
+                        }else{
+                                alert('别灰心，还有机会！');
+                        }
+                    } else {
+                        spaceTime=(10-speed)*60;
+                        timer = setTimeout(addCls, spaceTime);
+                        
+                        $li.eq(i % l).addClass('active').siblings().removeClass('active');
+                        i++;                                                
+                    }
+                    
+                    console.log('end='+end+',i='+i);
+                }
+            });
+        </script>
+    </body>
+</html>

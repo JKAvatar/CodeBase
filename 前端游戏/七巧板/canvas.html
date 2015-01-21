@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8">
+        <title>使用canvas绘制七色板</title>
+    </head>
+    <body>
+        <canvas id="canvas" width="400" height="400" style="margin:100px auto;display:block;border: 1px solid #666;">
+            <!--浏览器不支持canvas时显示-->
+            您的浏览器不支持canvas
+        </canvas>
+
+        <script>
+        //  七个色块的位置和填充颜色
+            var element=[
+                {p:[{x:0,y:0},{x:400,y:0},{x:400,y:400},{x:0,y:400}],color:"#FF5061"},//红色
+                {p:[{x:0,y:0},{x:200,y:200},{x:0,y:400}],color:"#5DB6CF"},//蓝色
+                {p:[{x:0,y:0},{x:400,y:0},{x:200,y:200}],color:"#CAF161"},//绿色
+                {p:[{x:301,y:100},{x:200,y:201},{x:300,y:300}],color:"#FCEA11"},//黄色
+                {p:[{x:200,y:201},{x:100,y:300},{x:200,y:400},{x:300,y:300}],color:"#A797C4"},//紫色
+                {p:[{x:100,y:300},{x:0,y:400},{x:200,y:400}],color:"#FE9CCD"},//粉色
+                {p:[{x:400,y:200},{x:201,y:400},{x:400,y:400}],color:"#FCC520"}//右下角黄色
+            ];
+            window.onload = function(){
+                var canvas = document.getElementById("canvas");
+                if(canvas.getContext("2d")){
+                    var context = canvas.getContext("2d");
+                    //绘制图形
+                    for(var i=0;i<element.length;i++){
+                        draw(element[i],context);
+                    }
+                }else{
+        //          使用js判断浏览器对canvas的支持
+                    alert("当前浏览器不支持canvas！");
+                }
+            };
+            function draw(ele,cxt){
+                cxt.beginPath();//开始绘制
+                cxt.moveTo(ele.p[0].x,ele.p[0].y);
+                for(var j=1;j<ele.p.length;j++){
+                    cxt.lineTo(ele.p[j].x,ele.p[j].y);
+                }
+                cxt.closePath();//结束绘制
+                cxt.lineWidth = 1;
+                cxt.stroke();
+
+                cxt.fillStyle='rgb('+ getRandomNum(0,255) +','+ getRandomNum(0,255) +','+ getRandomNum(0,255) +')';
+                cxt.fill();
+            }
+            function getRandomNum(min,max){
+                return parseInt(Math.random()*(max + 1 -min)+min);
+            }
+        </script>
+    </body>
+</html>

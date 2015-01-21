@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="utf-8">
+		<title>CSS3画矩形</title>
+		<style type="text/css">
+			body,div{margin: 0;padding: 0;}
+			#container{height:200px;width:200px;margin:50px auto;position: relative;}
+			.rect{height:80px;width: 60px;position: absolute;top:50px;background-color: #f00;}
+			#rect1{left:80px;-webkit-transform:rotate(45deg);}
+			#rect2{right:75px;-webkit-transform:rotate(-45deg);}
+			.circle{height:60px;width: 60px;position: absolute;top:30px;background-color: #0f0;border-radius: 60px;}
+			#circle1{left:40px;}
+			#circle2{right:40px;}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div class="rect" id="rect1"></div>
+			<div class="rect" id="rect2"></div>
+			<div class="circle" id="circle1"></div>
+			<div class="circle" id="circle2"></div>
+		</div>
+	</body>
+</html>

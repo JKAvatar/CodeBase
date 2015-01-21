@@ -1,0 +1,40 @@
+.page-nav{
+	font-size:12px;
+}
+.page-nav li {
+	float: left;
+	line-height: 20px;
+	color: #666;
+	margin-left: 3px;
+}
+.page-nav li.page-jump{
+	margin-left:10px;
+}
+.page-nav li.page-jump input{width:24px;margin:0 4px;padding:3px;outline: none;border:1px solid #aaa;}
+.page-nav li a {
+	display: block;
+	padding: 0 6px;
+	background: #fff;
+	border: 1px solid #ccc;
+	text-align: center;
+}
+.page-nav .prev-page a {
+	background: #fff url(http://a.tbcdn.cn/app/trade/img/page_nav.gif) no-repeat 7px -15px;
+	width: 45px;
+	text-align: right;
+}
+.page-nav .next-page a {
+	background: #fff url(http://a.tbcdn.cn/app/trade/img/page_nav.gif) no-repeat 45px 5px;
+	width: 45px;
+	text-align: left;
+}
+.page-nav .curr-page a {
+	background: #0196CE;
+	border: 1px solid #91AAED;
+	color: #fff!important;
+	font-weight: bold;
+}
+.page-nav li.skip a {
+	border: 0;
+	background: transparent;
+}

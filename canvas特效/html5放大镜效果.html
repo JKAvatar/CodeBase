@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400" style="display:block; margin:0 auto; border:1px solid #ccc;"></canvas>
+    <script>
+        var canvas=document.getElementById('canvas');
+        var context=canvas.getContext('2d');
+        var width=canvas.width;
+        var height=canvas.height;
+        window.onload= function () {
+            context.fillStyle="black";
+            context.fillRect(0,0,width,height);
+            canvas.addEventListener("mousemove",draw);
+            canvas.addEventListener("mouseout",hide)
+
+        };
+        function draw(event){
+            var x=event.clientX-canvas.getBoundingClientRect().left;
+            var y=event.clientY-canvas.getBoundingClientRect().top;
+            context.clearRect(0,0,width,height);
+
+            context.fillStyle="black";
+            context.fillRect(0,0,width,height);
+
+            context.save();
+            context.beginPath();
+            context.arc(x,y,100,0,2*Math.PI);
+            context.fillStyle="white";
+            context.fill();
+            context.clip();
+
+            context.font="bold 40px Arial";
+            context.fillStyle="#058";
+            context.textAlign="center";
+            context.textBaseLine="middle";
+            context.fillText("我们永远在一起",width/2,height/2);
+            context.restore();
+        }
+        function hide(){
+            context.clearRect(0,0,width,height);
+            context.fillStyle="black";
+            context.fillRect(0,0,width,height);
+        }
+    </script>
+</body>
+</html>

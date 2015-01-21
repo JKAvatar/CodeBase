@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>基于盒子模型的css三角原理实现七巧板</title>
+		<style>
+			body,div{margin:0;padding:0;}
+			#ban{
+				height: 400px;
+				width: 400px;
+				margin: 50px auto;
+				position: relative;
+			}
+			#ban>div{
+				height: 0;
+				width: 0;
+				line-height: 0;
+				overflow: hidden;
+				position: absolute;
+			}
+			.main{
+				border-width: 200px;
+				border-color: #CAF161 #FF5061 #A797C4 #5DB6CF;
+				border-style:solid;
+			}
+			.right_bottom{
+				top: 200px;
+				left: 200px;
+				border-width: 100px;
+				border-color: transparent #FCC520 #FCC520 transparent;
+				border-style: dashed solid solid dashed;
+			}
+			.left_bottom{
+				top: 200px;
+				left: 0;
+				border-width: 100px;
+				border-color: transparent transparent #FE9CCD transparent;
+				border-style: dashed dashed solid dashed;
+			}
+			.center_angel{
+				top: 100px;
+				left:100px;
+				border-width: 100px;
+				border-color: transparent #FCEA11 transparent transparent;
+				border-style: dashed solid dashed dashed;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="ban">
+			<div class="main"></div>
+			<div class="right_bottom"></div>
+			<div class="left_bottom"></div>
+			<div class="center_angel"></div>
+		</div>
+	</body>
+</html>

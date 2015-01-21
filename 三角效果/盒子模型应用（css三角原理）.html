@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<title>盒子模型应用（css三角原理）</title>
+	<style>
+		body,div{margin:0;padding:0;}
+		#test1 { 
+		    /*content的宽高*/
+		    height:20px;
+		    width:20px;
+		    /*边框颜色*/ 
+		    border-color:#FF9600 #3366ff #12ad2a #f0eb7a;
+		    /*边框形状*/ 
+		    border-style:solid; 
+		    /*边框宽度*/
+		    border-width:20px;
+		    margin-bottom: 50px;
+		}
+		#test2 { 
+	        height:0px;           /*content的宽高*/
+	    	width:0px;
+	        overflow: hidden;     /* 这里设置overflow, font-size, line-height */ 
+		    font-size: 0;         /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */ 
+		    line-height: 0;       /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */ 
+		    border-color:#FF9600 #3366ff #12ad2a #f0eb7a;/*边框颜色*/ 
+		    border-style:solid;   /*边框形状*/ 
+	        border-width:20px;    /*边框宽度*/
+		    margin-bottom: 50px;
+		}
+		#test3 { 
+	        height:0px;           /*content的宽高*/
+	    	width:0px;
+	        overflow: hidden;     /* 这里设置overflow, font-size, line-height */ 
+		    font-size: 0;         /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */ 
+		    line-height: 0;       /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */ 
+		    /* border-color:#FF9600 #fff #fff #fff; *//*边框颜色*/ 
+		    border-color:#FF9600 transparent transparent transparent;/*边框颜色*/ 
+		    /* border-style:solid; */   /*边框形状*/ 
+		    border-style:solid dashed dashed dashed;  /*解决ie6不支持透明，边框默认为黑色的问题*/
+	        border-width:20px;    /*边框宽度*/
+		    margin-bottom: 50px;
+		}
+
+		#test4{
+			position: relative;
+			height: 100px;
+			width: 300px;
+			border: 6px solid rgb(0,153,255);
+		    margin-bottom: 50px;
+		}
+		#angle{
+			position: absolute;
+			bottom: -46px;
+			left: 60px;
+			height: 0;
+			width:0px;
+			overflow: hidden;
+			line-height: 0;
+			border-color: rgb(0,153,255) transparent transparent transparent;
+			border-width:20px;
+			border-style:solid dashed dashed dashed;
+		}
+
+		#test5{
+			position: relative;
+			height: 100px;
+			width: 300px;
+			border: 6px solid rgb(0,153,255);
+		    margin-bottom: 50px;
+		}
+		#angle1{
+			position: absolute;
+			bottom: -46px;
+			left: 60px;
+			height: 0;
+			width:0px;
+			overflow: hidden;
+			line-height: 0;
+			border-color: rgb(0,153,255) transparent transparent transparent;
+			border-width:20px;
+			border-style:solid dashed dashed dashed;
+		}
+		#angle2{
+			position: absolute;
+			bottom: -37px;
+			left: 60px;
+			height: 0;
+			width:0px;
+			overflow: hidden;
+			line-height: 0;
+			border-color: #fff transparent transparent transparent;
+			border-width:20px;
+			border-style:solid dashed dashed dashed;
+		}
+
+		.tag{
+	        width:300px;
+	        height:100px;
+	        background:#09f;
+	        margin-left:300px;
+	        position:relative;
+	    }
+		.arrow{
+	        width:70px;
+	        height:60px;
+	        left:-70px;
+	        position:absolute; 
+	        bottom:2px;
+		}
+		.arrow *{
+	        font-size:0;
+	        line-height:0;
+	        display:block;
+	        border-style:dashed solid solid dashed;
+	        position:absolute;
+	    }
+		.arrow em{
+	        border-width:30px 35px;
+	        border-color:transparent #09f #09f transparent;
+	    }
+		.arrow span{
+	        border-width:20px 35px;
+	        border-color:transparent #fff #fff transparent;
+	        bottom:0
+	    }
+	</style>
+	</head>
+
+	<body>
+		<div id="test1"></div>
+		<div id="test2"></div>
+		<div id="test3"></div>
+
+		<div id="test4">
+			css气泡边框
+			<div id="angle"></div>
+		</div>
+
+		<div id="test5">
+			css气泡边框
+			<div id="angle1"></div>
+			<div id="angle2"></div>
+		</div>
+
+		<div class="tag">
+	        <div class="arrow">
+                <em></em>
+                <span></span>
+	        </div>
+	        css气泡框实现
+		</div>
+	</body>
+</html>

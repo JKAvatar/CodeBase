@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>雪花飘落</title>
+		
+		<style>
+			html{overflow: auto;}
+			body{
+				background:#000;
+				background: url(./Disneyland%20Sleeping%20Beauty%20Castle%20at%20night.jpg) no-repeat center 0 #000;
+				overflow: auto;
+			}
+			.snowbg{width:1000px;height:600px;clear:both;margin:0 auto;position:relative;overflow:hidden;}
+			.snow{position:absolute;top:0;color:#fff;}
+		</style>
+		<script src="./jquery-1.9.1.min.js"></script>
+		<script>	
+			$(function(){
+		  		var d="<div class='snow'>❅</div>";
+				setInterval(function(){
+					var f = $(document).width();
+					var e = Math.random() * f - 100;
+					var o = 0.3 + Math.random();
+					var fon = 10 + Math.random()*30;
+					var l = e - 100 + 200 * Math.random();
+					var k = 2000 + 5000 * Math.random();
+					$(d).clone().appendTo(".snowbg").css({
+						left:e+"px",
+						opacity:o,
+						"font-size":fon
+					}).animate({
+					  	top:"500px",
+						left:l+"px",
+						opacity:0.1
+					},k,"linear",function(){$(this).remove()});
+				},200)
+			})
+		</script>
+  	</head>
+	<body >
+		<div class="snowbg">
+		</div>
+	</body>
+</html>
